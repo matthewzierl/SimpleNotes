@@ -34,11 +34,12 @@ class ComposeNoteController: UIViewController, UITextViewDelegate, UIImagePicker
         super.viewDidLoad()
 
         textView = UITextView()
+        textView.font = UIFont.systemFont(ofSize: 24) // Adjust size as needed
         view.backgroundColor = .systemBackground
         
         if note == nil { // if note doesn't exist yet, need to create empty one
             print("Note was nil, creating a new one")
-            note = Note()
+            note = Note(title: "", body: "", isLocked: false, dateCreated: Date.now, dateModified: Date.now, key: "")
             note!.dateModified = note!.dateModified
             let arr = [note!]
             allNotes.append(arr) // new note must be added, will sort later

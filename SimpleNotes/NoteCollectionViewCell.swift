@@ -1,9 +1,8 @@
 import UIKit
 
 class NoteCollectionViewCell: UICollectionViewCell {
-    var noteView: UIView!
+    var noteView: UIImageView!
     var title: UILabel!
-    var textView: UITextView!
     var cellNote: Note?
     
     var notSelectedImage: UIImageView!
@@ -53,26 +52,32 @@ class NoteCollectionViewCell: UICollectionViewCell {
     
     private func setupViews() {
         // Configure noteView
-        noteView = UIView()
-        noteView.backgroundColor = .systemRed
-        
-        
-        
-        textView = UITextView()
-        textView.text = cellNote?.body
-        
-        // draw textView to an image
-        
-//        let renderer = UIGraphicsImageRenderer(size: <#T##CGSize#>
-        
-        
-        
+        noteView = UIImageView()
+        noteView.backgroundColor = .systemGray5
         noteView.layer.cornerRadius = 8
         noteView.translatesAutoresizingMaskIntoConstraints = false
         noteView.layer.borderWidth = 0
         noteView.layer.borderColor = CGColor(red: 0, green: 0, blue: 1, alpha: 1)
         
         contentView.addSubview(noteView)
+        
+        
+//        // Set the correct target size for rendering
+//        let targetSize = CGSize(width: 100, height: 80)
+//        
+//        // Create the renderer with the target size
+//        let renderer = UIGraphicsImageRenderer(size: targetSize)
+//        
+//        let image = renderer.image { context in
+//            
+//            context.cgContext.setFillColor(UIColor.blue.cgColor)
+//            
+//            let rect = CGRect(x: .zero, y: .zero, width: 20, height: 40)
+//            
+//            context.cgContext.fill(rect)
+//        }
+//        
+//        noteView.image = image
         
         // Configure title label
         title = UILabel()
@@ -89,12 +94,10 @@ class NoteCollectionViewCell: UICollectionViewCell {
         notSelectedImage.layer.position = CGPoint(x: 56, y: 60)
         contentView.addSubview(notSelectedImage)
         
-        
         selectedImage = UIImageView(image: UIImage(systemName: "checkmark.circle"))
         selectedImage.isHidden = true
         selectedImage.layer.position = CGPoint(x: 56, y: 60)
         contentView.addSubview(selectedImage)
-        
         
         // Set up constraints for noteView
         NSLayoutConstraint.activate([
@@ -111,6 +114,6 @@ class NoteCollectionViewCell: UICollectionViewCell {
             title.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             title.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
-        
     }
+
 }

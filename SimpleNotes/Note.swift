@@ -24,6 +24,16 @@ class Note: NSObject, Codable {
     }
     var key: String = "Unknown"
     
+    init(title: String, body: String, isLocked: Bool = false, dateCreated: Date, dateModified: Date, key: String) {
+        self.title = title
+        self.body = body
+        self.isLocked = isLocked
+        self.dateCreated = dateCreated
+        self.dateModified = dateModified
+        self.key = key
+    }
+    
+    
     func getNameMonth(month: Int) -> String {
         switch month {
         case 1:

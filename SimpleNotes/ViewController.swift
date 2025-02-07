@@ -45,6 +45,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             } catch {
                 print("Failed to load notes")
             }
+            
+            createExamples() // MARK: Remove later
+            
+            
         }
         
         sortNotes()
@@ -86,6 +90,72 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             collectionView.reloadData()
         } else {
             tableView.reloadData()
+        }
+    }
+    
+    func createExamples() {
+        // fill in example notes
+        
+        var noteTitles = [
+            "Grocery List 🛒",
+            "Workout Plan 💪",
+            "Weekend To-Do ✅",
+            "Meeting Notes 📌",
+            "Project Ideas 💡",
+            "Favorite Quotes ✨",
+            "Books to Read 📚",
+            "Movie Watchlist 🎬",
+            "Dream Journal 🌙",
+            "Random Thoughts 🤔",
+            "Gift Ideas 🎁",
+            "Recipe Notes 🍲",
+            "Travel Bucket List ✈️",
+            "Daily Reflections 📝",
+            "Coding Snippets 💻",
+            "Financial Goals 💰",
+            "Music Playlist 🎶",
+            "Home Improvement 🔨",
+            "Study Notes 📖",
+            "Mindfulness Tips 🧘"
+        ]
+
+        
+        for _ in 0...noteTitles.count - 1 {
+            var components = DateComponents()
+            components.year = [2022, 2023, 2024].randomElement()!
+            components.month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].randomElement()
+            components.day = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28].randomElement()
+            components.hour = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].randomElement()
+            components.minute = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28].randomElement()
+
+            // Get the date from the components
+            guard let specificDate = Calendar.current.date(from: components) else {
+                return
+            }
+            
+
+            guard let randomMonth = components.month, let randomYear = components.year else {
+                return
+            }
+            
+            let currentTitle = noteTitles.remove(at: Int.random(in: 0...noteTitles.count - 1))
+            
+            allNotes.append([Note(title: currentTitle, body: """
+Title: Morning Routine Checklist 🌅
+
+Body:  
+- Wake up at 6:30 AM ⏰  
+- Drink a glass of water 💧  
+- Stretch for 5 minutes 🧘‍♂️  
+- Make a healthy breakfast 🍳  
+- Review today’s tasks & priorities 📝  
+- Go for a 20-minute walk 🚶‍♂️  
+- Read for 15 minutes 📖  
+- Start work or personal projects 💻  
+
+Feeling productive already! Let’s make today a good one. ✅  
+""", dateCreated: specificDate, dateModified: specificDate, key: "\(getNameMonth(month: randomMonth)) \(randomYear)")])
+            
         }
     }
     
@@ -247,7 +317,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             }
             
             let jsonEncoder = JSONEncoder()
-            if let noteData = try? jsonEncoder.encode(self?.allNotes) {
+            if let noteData = try? jsonEncoder.encode(self?.allNotes) { // save changes to defaults
                 let defaults = UserDefaults.standard
                 defaults.setValue(noteData, forKey: "allNotes")
             } else {
@@ -350,6 +420,37 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return CGSize(width: collectionView.frame.width, height: 40)
     }
     
+    func getNameMonth(month: Int) -> String {
+        switch month {
+        case 1:
+            return "January"
+        case 2:
+            return "February"
+        case 3:
+            return "March"
+        case 4:
+            return "April"
+        case 5:
+            return "May"
+        case 6:
+            return "June"
+        case 7:
+            return "July"
+        case 8:
+            return "August"
+        case 9:
+            return "September"
+        case 10:
+            return "October"
+        case 11:
+            return "November"
+        case 12:
+            return "December"
+        default:
+            return "Uknown"
+        }
+    }
+    
     
     
     
@@ -359,7 +460,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         flatArray.sort { note1, note2 in
             note1.dateModified > note2.dateModified
-        }
+        } // sort all notes by their date
         
         var newAllNotes = [[Note]]()
         var currentArray = [Note]()
@@ -469,14 +570,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if isCollectionView {
             collectionView.isEditing = true
             for case let note as NoteCollectionViewCell in collectionView.visibleCells {
-                note.isEditMode = true
+                note.isEditMode = true // tell cells they are in edit mode
             }
         } else {
             tableView.setEditing(true, animated: true)
         }
-        let deleteAll = UIBarButtonItem(title: "Delete All", style: .plain, target: self, action: #selector(deleteSelectedNotes))
+        let deleteSelected = UIBarButtonItem(title: "Delete Selected", style: .plain, target: self, action: #selector(deleteSelectedNotes))
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbarItems = [flexibleSpace, deleteAll]
+        toolbarItems = [flexibleSpace, deleteSelected]
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(endEditing))
     }
     
