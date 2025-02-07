@@ -34,6 +34,7 @@ and bring to the next level.
 
 - **CollectionView Section Header** - The headers overlap with cell titles which makes for annoying user experience.
 - **Images Don't Save** - I suspect it has something to do with UserDefaults, or maybe I have to save photos as 'Data'.
+- **Gallery View Images** - I want it to show a snapshot of the notes like in the note app, but for now its just a gray box.
 
 ## Features I Would Like to Implement 🤤
 - **Text Formatting** - Right now, users cannot create bullit points or change font size.
